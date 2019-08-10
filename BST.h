@@ -14,7 +14,7 @@
 #ifndef _BST_H_
 #define _BST_H_
 
-typedef node node, *pNode;
+typedef struct node node, *pNode;
 struct node{
     int key;
     pNode l_child;
@@ -23,18 +23,16 @@ struct node{
 
 typedef struct{
     int size;
-    int depth;
-    int key;
-    pNode l_child;
-    pNode r_child;
-}BST, pBST;
+    // int depth;
+    pNode root;
+}BST, *pBST;
 
 /*===== STRUCTURE ============================================================*/
-pNode createBST();
+pBST createBST();
 
-int insert();
+int insert(int key, pBST tree);
 
-void remove();
+void removeNode();
 
 void removeAll();
 
