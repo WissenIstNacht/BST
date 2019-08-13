@@ -32,15 +32,17 @@ pBST createBST();
 
 int insert(int key, pBST tree);
 
-void removeNode();
+void removeNode(int key, pBST tree);
 
-void removeAll();
+void removeAll(pBST tree);
 
-void removeTree();
+void removeTree(pBST tree);
 
 /*===== UTILITY ==============================================================*/
 
-int search();
+int search(int key, pBST tree);
+
+void print(pBST tree);
 
 
 #endif
