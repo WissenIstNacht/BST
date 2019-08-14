@@ -23,6 +23,39 @@ static pNode get(int key, pBST tree) {
     } while (1);
 }
 
+static void inOrder(pNode curr_node, int* out, int* count){
+    if(curr_node->l_child != NULL){
+        inOrder(curr_node->l_child, out, count);
+    }
+    out[*count] = curr_node->key;
+    (*count)++;
+    if (curr_node->r_child != NULL){
+        inOrder(curr_node->r_child, out, count);
+    }
+}
+
+static void preOrder(pNode curr_node, int* out, int* count){
+    out[*count] = curr_node->key;
+    (*count)++;
+    if(curr_node->l_child != NULL){
+        inOrder(curr_node->l_child, out, count);
+    }
+    if (curr_node->r_child != NULL){
+        inOrder(curr_node->r_child, out, count);
+    }
+}
+
+static void postOrder(pNode curr_node, int* out, int* count){
+    if(curr_node->l_child != NULL){
+        inOrder(curr_node->l_child, out, count);
+    }
+    if (curr_node->r_child != NULL){
+        inOrder(curr_node->r_child, out, count);
+    }
+    out[*count] = curr_node->key;
+    (*count)++;
+}
+
 /*===== STRUCTURE ============================================================*/
 pBST createBST() {
     pBST new_tree = malloc(sizeof(BST));
@@ -183,4 +216,21 @@ int search(int key, pBST tree) {
     } while (1);
 }
 
-void print(pBST tree) {}
+int* traversal(int type, pBST tree){
+    int* out = malloc(4 * tree->size);
+    if (out == NULL) return NULL;
+    int* count = malloc(4);
+    if (count == NULL) return NULL;
+
+    if (type == 1) {
+        inOrder(tree->root, out, count);
+    }else if(type == 2){
+        preOrder(tree->root, out, count);
+    }else if(type == 3){
+        postOrder(tree->root, out, count);
+
+    }else{
+        return NULL; 
+    }
+    return out;
+}

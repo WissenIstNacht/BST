@@ -42,7 +42,7 @@ void removeTree(pBST tree);
 
 int search(int key, pBST tree);
 
-void print(pBST tree);
+int* traversal(int type, pBST tree);
 
 
 #endif
