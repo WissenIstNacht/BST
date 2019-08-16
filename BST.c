@@ -56,7 +56,18 @@ static void postOrder(pNode curr_node, int* out, int* count){
     (*count)++;
 }
 
+static void recDeleting(pNode curr_node){
+    if(curr_node->l_child != NULL){
+        recDeleting(curr_node->l_child);
+    }
+    if(curr_node->r_child != NULL){
+        recDeleting(curr_node->r_child);
+    }
+    free(curr_node);
+}
+
 /*===== STRUCTURE ============================================================*/
+
 pBST createBST() {
     pBST new_tree = malloc(sizeof(BST));
 
@@ -188,7 +199,9 @@ void removeNode(int key, pBST tree) {
 }
 
 void removeAll(pBST tree) {
-    // Recursion here??
+    recDeleting(tree->root);
+    tree->root = NULL;
+    tree->size = 0;
 }
 
 void removeTree(pBST tree) {
@@ -233,4 +246,26 @@ int* traversal(int type, pBST tree){
         return NULL; 
     }
     return out;
+}
+
+void printInOrder(pBST tree){
+    if(tree->size == 0){
+        printf("The tree is empty: []\n");
+        return;
+    }
+
+    int* a = traversal(1, tree);
+    int sz = tree->size;
+
+    printf("[");
+    for (int i = 0; i < sz; i++) {
+        if (i == sz - 1) {
+            printf("%i", a[i]);
+        } else {
+            printf("%i, ", a[i]);
+        }
+    }
+    printf("]\n");
+
+    free(a);
 }
