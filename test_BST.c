@@ -36,7 +36,7 @@ void test_insert() {
     for (size_t i = 0; i < 8; i++) {
         insert(i, test_tree);
     }
-
+    
     printf("\nTEST - Adding powers of two:\n");
     printInOrder(test_tree);
 

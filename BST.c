@@ -199,9 +199,11 @@ void removeNode(int key, pBST tree) {
 }
 
 void removeAll(pBST tree) {
-    recDeleting(tree->root);
-    tree->root = NULL;
-    tree->size = 0;
+    if(tree->size != 0){
+        recDeleting(tree->root);
+        tree->root = NULL;
+        tree->size = 0;
+    }
 }
 
 void removeTree(pBST tree) {
@@ -230,6 +232,8 @@ int search(int key, pBST tree) {
 }
 
 int* traversal(int type, pBST tree){
+    if(tree->size == 0) return NULL;
+
     int* out = malloc(4 * tree->size);
     if (out == NULL) return NULL;
     int* count = malloc(4);
@@ -241,7 +245,6 @@ int* traversal(int type, pBST tree){
         preOrder(tree->root, out, count);
     }else if(type == 3){
         postOrder(tree->root, out, count);
-
     }else{
         return NULL; 
     }
