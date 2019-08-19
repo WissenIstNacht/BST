@@ -62,12 +62,17 @@ int insert(int key, pBST tree);
  *  - key: Key of element that's to be deleted.
  *  - tree:  Pointer to tree.
  *
+ * return
+ * ------
+ *  - {1} if the removal was successful,
+ *  - {-1} if the node was not found in tree or tree is empty.
+ * 
  * This method first searches the tree for the element with the specified key.
- * In order to preserve the tree invariant deletion leads to a potential
+ * In order to preserve the tree invariant deletion potentially leads to a
  * rearrangement of the tree structure. Afterwards, the memory allocated for the
- * element is then.
+ * node is freed.
  */
-void removeNode(int key, pBST tree);
+int removeNode(int key, pBST tree);
 
 /** Removes and deletes all items fromm the tree.
  *

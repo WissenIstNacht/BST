@@ -59,9 +59,11 @@ static void postOrder(pNode curr_node, int* out, int* count){
 static void recDeleting(pNode curr_node){
     if(curr_node->l_child != NULL){
         recDeleting(curr_node->l_child);
+        curr_node->l_child = NULL;
     }
     if(curr_node->r_child != NULL){
         recDeleting(curr_node->r_child);
+        curr_node->r_child = NULL;
     }
     free(curr_node);
 }
@@ -90,6 +92,7 @@ int insert(int key, pBST tree) {
     if (tree->size == 0) {
         tree->root = new_node;
         tree->size = 1;
+        return 0;
     }
 
     /* Get correct leaf */
@@ -115,20 +118,22 @@ int insert(int key, pBST tree) {
     } while (1);
 }
 
-void removeNode(int key, pBST tree) {
+int removeNode(int key, pBST tree) {
+    if (tree->size == 0) return -1;
+
     /* Find note that's to be deleted */
     pNode parent = NULL;
     pNode curr_node = tree->root;
     do {
         if (key < curr_node->key) {
             if (curr_node->l_child == NULL) {  // node not in tree
-                return;
+                return -1;
             }
             parent = curr_node;
             curr_node = curr_node->l_child;
         } else if (key > curr_node->key) {
             if (curr_node->r_child == NULL) {  // node not in tree
-                return;
+                return -1;
             }
             parent = curr_node;
             curr_node = curr_node->r_child;
@@ -136,12 +141,14 @@ void removeNode(int key, pBST tree) {
             break;
         }
     } while (1);
+    pNode to_delete = curr_node;
 
     /* Delete node according to Hibbard's case distinction */
-    pNode to_delete = curr_node;
     /* Deleted node has no children */
     if (to_delete->l_child == NULL && to_delete->r_child == NULL) {
-        if (to_delete->key < parent->key) {
+        if(to_delete == tree->root){    //SC: root
+            tree->root = NULL;
+        }else if (to_delete->key < parent->key) {
             parent->l_child = NULL;
         } else {
             parent->r_child = NULL;
@@ -150,7 +157,9 @@ void removeNode(int key, pBST tree) {
     }
     /* Deleted node has only right child */
     else if (to_delete->l_child == NULL) {
-        if (to_delete->key < parent->key) {
+        if(to_delete == tree->root){    //SC: root
+            tree->root = to_delete->r_child;
+        }else if (to_delete->key < parent->key) {
             parent->l_child = to_delete->r_child;
         } else {
             parent->r_child = to_delete->r_child;
@@ -159,7 +168,9 @@ void removeNode(int key, pBST tree) {
     }
     /* Deleted node has only left child */
     else if (to_delete->r_child == NULL) {
-        if (to_delete->key < parent->key) {
+        if(to_delete == tree->root){    //SC: root
+            tree->root = to_delete->l_child;
+        }else if (to_delete->key < parent->key) {
             parent->l_child = to_delete->r_child;
         } else {
             parent->r_child = to_delete->r_child;
@@ -175,7 +186,6 @@ void removeNode(int key, pBST tree) {
             next_larger_parent = next_larger;
             next_larger = next_larger->l_child;
         }
-
         /* Next larger node is right child */
         if (next_larger == to_delete->l_child) {
             next_larger->l_child = to_delete->l_child;
@@ -189,13 +199,17 @@ void removeNode(int key, pBST tree) {
             next_larger->l_child = to_delete->l_child;
             next_larger->r_child = to_delete->r_child;
         }
-
-        if (to_delete->key < parent->key) {
+        /* Rearrange pointers. */
+        if(to_delete == tree->root){    //SC: root
+            tree->root = next_larger;
+        }else if (to_delete->key < parent->key) {
             parent->l_child = next_larger;
         } else {
             parent->r_child = next_larger;
         }
     }
+    tree->size--;
+    return 1;
 }
 
 void removeAll(pBST tree) {
@@ -238,6 +252,7 @@ int* traversal(int type, pBST tree){
     if (out == NULL) return NULL;
     int* count = malloc(4);
     if (count == NULL) return NULL;
+    *count = 0;
 
     if (type == 1) {
         inOrder(tree->root, out, count);
@@ -248,6 +263,7 @@ int* traversal(int type, pBST tree){
     }else{
         return NULL; 
     }
+    free(count);
     return out;
 }
 
