@@ -288,3 +288,25 @@ void printInOrder(pBST tree){
 
     free(a);
 }
+
+int min(pBST tree){
+    if(tree->size == 0){
+        return -1;
+    }
+    pNode curr_node = tree->root;
+    while(curr_node->l_child != NULL){
+        curr_node = curr_node->l_child;
+    }
+    return curr_node->key;
+}
+
+int max(pBST tree){
+    if(tree->size == 0){
+        return -1;
+    }
+    pNode curr_node = tree->root;
+    while(curr_node->r_child != NULL){
+        curr_node = curr_node->r_child;
+    }
+    return curr_node->key;
+}

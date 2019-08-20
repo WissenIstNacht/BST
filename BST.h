@@ -150,8 +150,34 @@ int* traversal(int type, pBST tree);
  */
 void printInOrder(pBST tree);
 
+/** Finds smallest value in tree.
+ *
+ * param
+ * -----
+ *  - tree: pointer to NON-EMPTY tree.
+ *
+ * return
+ * ------
+ *  - int value of minimum.
+ * 
+ * This method returns the smallest value currently stored in the tree. NOTE
+ * THAT THIS FUNCTION RETURNS THE DEFAULT VALUE -1 IF THE TREE IS EMPTY!
+ */
 int min(pBST tree);
 
+/** Finds largest value in tree.
+ *
+ * param
+ * -----
+ *  - tree: pointer to NON-EMPTY tree.
+ *
+ * return
+ * ------
+ *  - int value of maximum.
+ * 
+ * This method returns the largest value currently stored in the tree. NOTE
+ * THAT THIS FUNCTION RETURNS THE DEFAULT VALUE -1 IF THE TREE IS EMPTY!
+ */
 int max(pBST tree);
 
 #endif
